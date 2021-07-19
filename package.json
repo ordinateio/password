@@ -1,0 +1,49 @@
+{
+  "name": "@ordinateio/password",
+  "version": "1.0.0",
+  "description": "Generates strong passwords.",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "files": [
+    "dist/**/*"
+  ],
+  "author": "Ordinate IO (https://github.com/ordinateio)",
+  "license": "MIT",
+  "homepage": "https://github.com/ordinateio/password",
+  "bugs": {
+    "url": "https://github.com/ordinateio/password/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ordinateio/password.git"
+  },
+  "keywords": [
+    "front-end",
+    "back-end",
+    "typescript"
+  ],
+  "scripts": {
+    "build": "tsc --project tsconfig.json",
+    "test": "jest",
+    "coverage": "jest --coverage",
+    "clean": "rimraf .cache dist",
+    "pack": "npm run build && npm pack",
+    "publish": "npm run build && npm publish --access public",
+    "update-lock-file": "npm i --package-lock-only"
+  },
+  "jest": {
+    "cacheDirectory": ".cache/jest",
+    "coverageDirectory": ".cache/jest/coverage",
+    "transform": {
+      "^.+\\.(ts|tsx)$": "ts-jest"
+    }
+  },
+  "devDependencies": {
+    "@types/jest": "^26",
+    "@types/node": "^16",
+    "jest": "^27",
+    "rimraf": "^3",
+    "ts-jest": "^27",
+    "typescript": "^4"
+  }
+}
