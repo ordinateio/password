@@ -26,10 +26,7 @@
     "build": "tsc --project tsconfig.json",
     "test": "jest",
     "coverage": "jest --coverage",
-    "clean": "rimraf .cache dist",
-    "pack": "npm run build && npm pack",
-    "publish": "npm run build && npm publish --access public",
-    "update-lock-file": "npm i --package-lock-only"
+    "clean": "rimraf .cache dist *.tgz"
   },
   "jest": {
     "cacheDirectory": ".cache/jest",
