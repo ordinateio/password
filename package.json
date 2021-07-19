@@ -25,7 +25,6 @@
   "scripts": {
     "build": "tsc --project tsconfig.json",
     "test": "jest",
-    "coverage": "jest --coverage",
     "clean": "rimraf .cache dist *.tgz"
   },
   "jest": {
