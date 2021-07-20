@@ -1,6 +1,6 @@
 {
   "name": "@ordinateio/password",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Generates strong passwords.",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
