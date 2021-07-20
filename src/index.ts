@@ -130,11 +130,10 @@ export class Password {
         let part = '';
 
         for (let i = 0; i < length; i++) {
-            const char = charset[Math.ceil(Math.random() * (charset.length - 1))];
-            part += uppercase ? char.toUpperCase() : char;
+            part += charset[Math.ceil(Math.random() * (charset.length - 1))];
         }
 
-        return part;
+        return uppercase ? part.toUpperCase() : part;
     }
 
     /**
