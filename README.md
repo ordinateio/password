@@ -13,7 +13,7 @@ npm install --save-dev @ordinateio/password
 ```javascript
 import {Password} from "@ordinateio/password";
 
-let password = new Password({
+const password = new Password({
     characters: true,
 });
 
