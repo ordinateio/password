@@ -83,7 +83,7 @@ export class Password {
      *
      * @param properties Properties for generating a password.
      */
-    public constructor(properties: Partial<PasswordProperties> = {}) {
+    constructor(properties: Partial<PasswordProperties> = {}) {
         this.properties = {
             ...this.properties,
             ...properties,
@@ -93,7 +93,7 @@ export class Password {
     /**
      * Creates a new password.
      */
-    public create(): string {
+    create(): string {
         let password = '';
 
         const firstPart = Math.floor(this.properties.length / 4);

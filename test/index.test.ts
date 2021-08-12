@@ -3,11 +3,11 @@ import {Password} from '../src';
 const ITERATIONS = 100;
 
 describe('By default ...', () => {
-    const password = new Password();
+    let password = new Password();
 
     test(`Password consists of 20 characters. Iterations: ${ITERATIONS}.`, () => {
         for (let i = 0; i < ITERATIONS; i++) {
-            const value = password.create();
+            let value = password.create();
 
             expect(value.length).toBe(20);
         }
@@ -15,7 +15,7 @@ describe('By default ...', () => {
 
     test(`Password contains uppercase letters. Iterations: ${ITERATIONS}.`, () => {
         for (let i = 0; i < ITERATIONS; i++) {
-            const value = /[A-Z]/.test(password.create());
+            let value = /[A-Z]/.test(password.create());
 
             expect(value).toBe(true);
         }
@@ -23,7 +23,7 @@ describe('By default ...', () => {
 
     test(`Password contains numbers. Iterations: ${ITERATIONS}.`, () => {
         for (let i = 0; i < ITERATIONS; i++) {
-            const value = /[0-9]/.test(password.create());
+            let value = /[0-9]/.test(password.create());
 
             expect(value).toBe(true);
         }
@@ -31,7 +31,7 @@ describe('By default ...', () => {
 
     test(`Password does not contain special characters. Iterations: ${ITERATIONS}.`, () => {
         for (let i = 0; i < ITERATIONS; i++) {
-            const value = /[!"#$%&'()*+,-./:;<=>?@\[~\]^_`{|}\\]/.test(password.create());
+            let value = /[!"#$%&'()*+,-./:;<=>?@\[~\]^_`{|}\\]/.test(password.create());
 
             expect(value).toBe(false);
         }
@@ -40,14 +40,14 @@ describe('By default ...', () => {
 
 
 describe('Four-character ...', () => {
-    const password = new Password({
+    let password = new Password({
         characters: true,
         length: 4,
     });
 
     test(`Password must contain lowercase letters. Iterations: ${ITERATIONS}.`, () => {
         for (let i = 0; i < ITERATIONS; i++) {
-            const value = /[a-z]/.test(password.create());
+            let value = /[a-z]/.test(password.create());
 
             expect(value).toBe(true);
         }
@@ -55,7 +55,7 @@ describe('Four-character ...', () => {
 
     test(`Password must contain uppercase letters. Iterations: ${ITERATIONS}.`, () => {
         for (let i = 0; i < ITERATIONS; i++) {
-            const value = /[A-Z]/.test(password.create());
+            let value = /[A-Z]/.test(password.create());
 
             expect(value).toBe(true);
         }
@@ -63,7 +63,7 @@ describe('Four-character ...', () => {
 
     test(`Password must contain numbers. Iterations: ${ITERATIONS}.`, () => {
         for (let i = 0; i < ITERATIONS; i++) {
-            const value = /[0-9]/.test(password.create());
+            let value = /[0-9]/.test(password.create());
 
             expect(value).toBe(true);
         }
@@ -71,7 +71,7 @@ describe('Four-character ...', () => {
 
     test(`Password must contain special characters. Iterations: ${ITERATIONS}.`, () => {
         for (let i = 0; i < ITERATIONS; i++) {
-            const value = /[!"#$%&'()*+,-./:;<=>?@\[~\]^_`{|}\\]/.test(password.create());
+            let value = /[!"#$%&'()*+,-./:;<=>?@\[~\]^_`{|}\\]/.test(password.create());
 
             expect(value).toBe(true);
         }
@@ -80,7 +80,7 @@ describe('Four-character ...', () => {
 
 
 describe('Rest ...', () => {
-    const password = new Password({
+    let password = new Password({
         uppercase: false,
         numbers: false,
         characters: true,
@@ -88,7 +88,7 @@ describe('Rest ...', () => {
 
     test(`Password can only contain lowercase letters. Iterations: ${ITERATIONS}.`, () => {
         for (let i = 0; i < ITERATIONS; i++) {
-            const value = password.create();
+            let value = password.create();
 
             expect(value === value.toLowerCase()).toBe(true);
         }
@@ -96,17 +96,17 @@ describe('Rest ...', () => {
 
     test(`Password may not contain numbers. Iterations: ${ITERATIONS}.`, () => {
         for (let i = 0; i < ITERATIONS; i++) {
-            const value = /[0-9]/.test(password.create());
+            let value = /[0-9]/.test(password.create());
 
             expect(value).toBe(false);
         }
     });
 
     test(`Password must be unique. Iterations ${ITERATIONS * 10}.`, () => {
-        const history: string[] = [];
+        let history: string[] = [];
 
         for (let i = 0; i < ITERATIONS * 10; i++) {
-            const value = password.create();
+            let value = password.create();
 
             expect(history.includes(value)).toBe(false);
             history.push(value);
