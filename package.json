@@ -23,9 +23,13 @@
     "typescript"
   ],
   "scripts": {
-    "build": "tsc --project tsconfig.json",
+    "build": "npm run clean && npm run build:dist",
+    "build:dist": "tsc --project tsconfig.json",
     "test": "jest",
-    "clean": "rimraf .cache dist *.tgz"
+    "clean": "rimraf .cache dist",
+    "npm:pack": "npm run build && npm pack",
+    "npm:publish": "npm run build && npm publish --access public",
+    "npm:install:lock:only": "npm install --package-lock-only"
   },
   "jest": {
     "cacheDirectory": ".cache/jest",
