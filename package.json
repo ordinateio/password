@@ -39,7 +39,7 @@
     }
   },
   "devDependencies": {
-    "@types/jest": "^26",
+    "@types/jest": "^27",
     "@types/node": "^16",
     "jest": "^27",
     "rimraf": "^3",
