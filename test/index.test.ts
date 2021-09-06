@@ -1,115 +1,114 @@
 import {Password} from '../src';
 
-const ITERATIONS = 100;
-
-describe('By default ...', () => {
+describe('Defaults ...', () => {
     let password = new Password();
 
-    test(`Password consists of 20 characters. Iterations: ${ITERATIONS}.`, () => {
-        for (let i = 0; i < ITERATIONS; i++) {
-            let value = password.create();
+    test('By default, the password is 20 characters long.', () => {
+        let expected = password.create();
 
-            expect(value.length).toBe(20);
-        }
+        expect(expected.length).toBe(20);
     });
 
-    test(`Password contains uppercase letters. Iterations: ${ITERATIONS}.`, () => {
-        for (let i = 0; i < ITERATIONS; i++) {
-            let value = /[A-Z]/.test(password.create());
+    test('By default, the password contains lowercase letters.', () => {
+        let expected = /[a-z]/.test(password.create());
 
-            expect(value).toBe(true);
-        }
+        expect(expected).toBe(true);
     });
 
-    test(`Password contains numbers. Iterations: ${ITERATIONS}.`, () => {
-        for (let i = 0; i < ITERATIONS; i++) {
-            let value = /[0-9]/.test(password.create());
+    test('By default, the password contains uppercase letters.', () => {
+        let expected = /[A-Z]/.test(password.create());
 
-            expect(value).toBe(true);
-        }
+        expect(expected).toBe(true);
     });
 
-    test(`Password does not contain special characters. Iterations: ${ITERATIONS}.`, () => {
-        for (let i = 0; i < ITERATIONS; i++) {
-            let value = /[!"#$%&'()*+,-./:;<=>?@\[~\]^_`{|}\\]/.test(password.create());
+    test('By default, the password contains numbers.', () => {
+        let expected = /[0-9]/.test(password.create());
 
-            expect(value).toBe(false);
-        }
+        expect(expected).toBe(true);
+    });
+
+    test('By default, the password contains special characters.', () => {
+        let expected = /[!"#$%&'()*+,-./:;<=>?@\[~\]^_`{|}\\]/.test(password.create());
+
+        expect(expected).toBe(true);
     });
 });
 
-
-describe('Four-character ...', () => {
+describe('Four-characters ...', () => {
     let password = new Password({
-        characters: true,
-        length: 4,
+        letters: 1,
+        uppercase: 1,
+        numbers: 1,
+        characters: 1,
     });
 
-    test(`Password must contain lowercase letters. Iterations: ${ITERATIONS}.`, () => {
-        for (let i = 0; i < ITERATIONS; i++) {
-            let value = /[a-z]/.test(password.create());
+    test('The four-character password must contain lowercase letters.', () => {
+        let expected = /[a-z]/.test(password.create());
 
-            expect(value).toBe(true);
-        }
+        expect(expected).toBe(true);
     });
 
-    test(`Password must contain uppercase letters. Iterations: ${ITERATIONS}.`, () => {
-        for (let i = 0; i < ITERATIONS; i++) {
-            let value = /[A-Z]/.test(password.create());
+    test('The four-character password must contain uppercase letters.', () => {
+        let expected = /[A-Z]/.test(password.create());
 
-            expect(value).toBe(true);
-        }
+        expect(expected).toBe(true);
     });
 
-    test(`Password must contain numbers. Iterations: ${ITERATIONS}.`, () => {
-        for (let i = 0; i < ITERATIONS; i++) {
-            let value = /[0-9]/.test(password.create());
+    test('The four-character password must contain numbers.', () => {
+        let expected = /[0-9]/.test(password.create());
 
-            expect(value).toBe(true);
-        }
+        expect(expected).toBe(true);
     });
 
-    test(`Password must contain special characters. Iterations: ${ITERATIONS}.`, () => {
-        for (let i = 0; i < ITERATIONS; i++) {
-            let value = /[!"#$%&'()*+,-./:;<=>?@\[~\]^_`{|}\\]/.test(password.create());
+    test('The four-character password must contain special characters.', () => {
+        let expected = /[!"#$%&'()*+,-./:;<=>?@\[~\]^_`{|}\\]/.test(password.create());
 
-            expect(value).toBe(true);
-        }
+        expect(expected).toBe(true);
     });
 });
 
+describe('Other ...', () => {
+    let password = new Password();
 
-describe('Rest ...', () => {
-    let password = new Password({
-        uppercase: false,
-        numbers: false,
-        characters: true,
+    test('Password can only contain numbers.', () => {
+        let expected = /[^\d]/.test(password.create({
+            letters: 0,
+            uppercase: 0,
+            numbers: 20,
+            characters: 0,
+        }));
+
+        expect(expected).toBe(false);
     });
 
-    test(`Password can only contain lowercase letters. Iterations: ${ITERATIONS}.`, () => {
-        for (let i = 0; i < ITERATIONS; i++) {
-            let value = password.create();
+    test('Password can only contain special characters.', () => {
+        let expected = /[^!"#$%&'()*+,-./:;<=>?@\[~\]^_`{|}\\]/.test(password.create({
+            letters: 0,
+            uppercase: 0,
+            numbers: 0,
+            characters: 20,
+        }));
 
-            expect(value === value.toLowerCase()).toBe(true);
-        }
+        expect(expected).toBe(false);
     });
 
-    test(`Password may not contain numbers. Iterations: ${ITERATIONS}.`, () => {
-        for (let i = 0; i < ITERATIONS; i++) {
-            let value = /[0-9]/.test(password.create());
-
-            expect(value).toBe(false);
-        }
+    test('Password must contain at least one group of characters.', () => {
+        expect(() => password.create({
+            letters: 0,
+            uppercase: 0,
+            numbers: 0,
+            characters: 0,
+        })).toThrow(Error);
     });
 
-    test(`Password must be unique. Iterations ${ITERATIONS * 10}.`, () => {
+    test('Passwords must be unique for 1000 iterations.', () => {
         let history: string[] = [];
 
-        for (let i = 0; i < ITERATIONS * 10; i++) {
-            let value = password.create();
+        for (let i = 0; i < 1000; i++) {
+            let expected = password.create();
 
-            expect(history.includes(value)).toBe(false);
-            history.push(value);
+            expect(history.includes(expected)).toBe(false);
+            history.push(expected);
         }
     });
 });

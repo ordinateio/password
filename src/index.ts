@@ -1,31 +1,25 @@
 export interface PasswordProperties {
     /**
-     * If 'true' includes uppercase characters in the password.
+     * The number of letters to be included in the password.
      */
-    uppercase: boolean;
+    letters: number;
 
     /**
-     * If 'true' includes numbers in the password.
+     * The number of uppercase letters to be included in the password.
      */
-    numbers: boolean;
+    uppercase: number;
 
     /**
-     * If 'true' includes special characters in the password.
+     * The number of digits to be included in the password.
      */
-    characters: boolean;
+    numbers: number;
 
     /**
-     * The length of the required password.
-     * The minimum possible password length to include all groups of characters is 4.
+     * The number of special characters to be included in the password.
      */
-    length: number;
+    characters: number;
 }
 
-/**
- * Class Password - Generates strong passwords.
- *
- * [Github]{@link https://github.com/ordinateio/password}
- */
 export class Password {
     /**
      * List of letters to generate a password.
@@ -72,10 +66,10 @@ export class Password {
      * @private
      */
     private readonly properties: PasswordProperties = {
-        uppercase: true,
-        numbers: true,
-        characters: false,
-        length: 20,
+        letters: 5,
+        uppercase: 5,
+        numbers: 5,
+        characters: 5,
     };
 
     /**
@@ -92,29 +86,33 @@ export class Password {
 
     /**
      * Creates a new password.
+     *
+     * @param properties
      */
-    create(): string {
+    create(properties: Partial<PasswordProperties> = {}) {
         let password = '';
+        let options = {...this.properties, ...properties};
 
-        const firstPart = Math.floor(this.properties.length / 4);
-        password += Password.createPart(this.letters, firstPart);
+        if (!Password.isValid(options)) {
+            throw new Error('Password must include at least one group of characters.');
+        }
 
-        const secondPart = firstPart;
-        password += this.properties.uppercase
-            ? Password.createPart(this.letters, secondPart, true)
-            : Password.createPart(this.letters, secondPart);
-
-        const thirdPart = firstPart;
-        password += this.properties.numbers
-            ? Password.createPart(this.numbers, thirdPart)
-            : Password.createPart(this.letters, thirdPart);
-
-        const fourthPart = this.properties.length - firstPart - secondPart - thirdPart;
-        password += this.properties.characters
-            ? Password.createPart(this.characters, fourthPart)
-            : Password.createPart(this.letters, fourthPart);
+        options.letters && (password += Password.createPart(this.letters, options.letters));
+        options.uppercase && (password += Password.createPart(this.letters, options.uppercase).toUpperCase());
+        options.numbers && (password += Password.createPart(this.numbers, options.numbers));
+        options.characters && (password += Password.createPart(this.characters, options.characters));
 
         return Password.shuffle(password);
+    }
+
+    /**
+     * Returns true if at least one character group is used, otherwise returns false.
+     *
+     * @param properties
+     * @private
+     */
+    private static isValid(properties: PasswordProperties) {
+        return properties.letters || properties.uppercase || properties.numbers || properties.characters;
     }
 
     /**
@@ -122,18 +120,17 @@ export class Password {
      *
      * @param charset
      * @param length
-     * @param uppercase
      *
      * @private
      */
-    private static createPart(charset: string[], length: number, uppercase: boolean = false): string {
+    private static createPart(charset: string[], length: number): string {
         let part = '';
 
         for (let i = 0; i < length; i++) {
             part += charset[Math.ceil(Math.random() * (charset.length - 1))];
         }
 
-        return uppercase ? part.toUpperCase() : part;
+        return part;
     }
 
     /**
